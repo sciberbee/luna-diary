@@ -1,0 +1,9 @@
+/* src/pages/css/login.css */
+.login-container {
+    padding: 20px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic:wght@400;700;800&family=Gothic+A1:wght@100;200;500;800;900&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f3e5f5; /* 옅은 보라색 배경 */
+  color: #5e35b1; /* 보라색 텍스트 */
+}
+
+header {
+  background-color: #673ab7; /* 진한 보라색 */
+  padding: 20px 40px;
+  color: white;
+  text-align: center;
+  font-size: 24px;
+}
+
+input, textarea, button {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px;
+  margin: 8px 0;
+  display: block;
+  width: 90%;
+  border: none;
+  border-radius: 4px;
+}
+
+input[type="text"], input[type="password"], textarea {
+  background-color: #e1bee7; /* 더 옅은 보라색 */
+  color: #4a148c; /* 어두운 보라색 텍스트 */
+}
+
+button {
+  background-color: #7e57c2; /* 중간 보라색 */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #5e35b1;
+}
+
+form {
+  max-width: 360px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ce93d8; /* 밝은 보라색 */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 20px;
+}

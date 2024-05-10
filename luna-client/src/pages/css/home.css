@@ -1,0 +1,33 @@
+.home-container {
+    font-family: 'Arial', sans-serif;
+    color: #5a5a5a;
+    background-color: #f4f4f9;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .home-header {
+    font-size: 2.5em;
+    color: #4a4a7a;
+    margin-bottom: 20px;
+  }
+  
+  .home-content {
+    font-size: 1.2em;
+    color: #6a6a8a;
+    width: 60%;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  .home-footer {
+    position: absolute;
+    bottom: 10px;
+    font-size: 0.9em;
+    color: #4a4a7a;
+  }
+  

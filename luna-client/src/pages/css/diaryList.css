@@ -1,0 +1,15 @@
+/* src/pages/css/diaryList.css */
+.diary-list-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .diary-entry {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    max-width: 600px;
+  }
