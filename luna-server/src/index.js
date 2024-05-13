@@ -7,7 +7,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = 8080;
+const PORT = 8000;
 
 app.use(cors());
 
@@ -21,11 +21,12 @@ app.use(cors({
 */
 
 // 데이터베이스 설정 (본인의 데이터베이스 정보로 수정해주세요)
+// mysql://root:tnfqkrtm@db:3306/luna_diary
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'yourUsername',
-    password: 'yourPassword',
-    database: 'DiaryApp'
+    host: 'db',
+    user: 'root',
+    password: 'tnfqkrtm',
+    database: 'luna_diary'
 });
 
 // 파일 저장을 위한 multer 설정
