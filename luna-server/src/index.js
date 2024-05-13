@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const path = require('path');
 const cors = require('cors');
 
