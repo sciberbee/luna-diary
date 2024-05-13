@@ -5,6 +5,7 @@ const mysql = require('mysql2');
 const path = require('path');
 const cors = require('cors');
 const fs = require('fs');
+const fetch = require('node-fetch');
 
 const multer = require('multer');
 
@@ -144,22 +145,74 @@ app.post('/logout', (req, res) => {
 });
 
 // 일기 목록 조회
-app.get('/diaries', (req, res) => {
+app.get('/diaries', async (req, res) => {
     console.log(req.body);
-    db.query('SELECT * FROM diaries', (err, results) => {
+    const user_id = req.session.userId;
+    console.log('user_id:', user_id);
+    if (!user_id) {
+        console.log('Unauthorized');
+        res.status(401).send('Unauthorized');
+        return;
+    }
+
+    db.query('SELECT * FROM diaries', async (err, results) => {
         if (err) throw err;
-        console.log(results);
-        results.forEach((result) => {
-            try {
-                result.data = fs.readFileSync(result.path).toString('base64');
-            } catch (err) {
-                console.error(err);
-                result.data = null;
+        let return_results = [];
+
+        for (let result of results) {
+            if (user_id === result.user_id) {
+                try {
+                    result.data = fs.readFileSync(result.path).toString('base64');
+                    return_results.push(result);
+                } catch (err) {
+                    console.error(err);
+                    result.data = null;
+                }
+                try {
+                    const sentiment_analysis = await analyzeSentiment(result.content);
+                    result.sentiment = sentiment_analysis.sentiment;
+                    result.confidence = sentiment_analysis.confidence;
+                    // confidence: { negative: 0.07278658, positive: 0.072461605, neutral: 99.85475 }
+                } catch (err) {
+                    console.error(err);
+                    result.sentiment = 'API Call Error';
+                    result.confidence = { negative: 0, positive: 0, neutral: 0 };
+                }
             }
-        });
-        res.json(results);
+        }
+
+        //console.log(return_results);
+        res.json(return_results);
     });
 });
+
+async function analyzeSentiment(text) {
+    const client_id = "po27e2eh8m";  // Replace with your actual client id
+    const client_secret = "YnECVYs35gEi66OWNKaEbnwhLYnoClamgtzQoe8j";  // Replace with your actual client secret
+    const url = "https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze";
+    const headers = {
+        "X-NCP-APIGW-API-KEY-ID": client_id,
+        "X-NCP-APIGW-API-KEY": client_secret,
+        "Content-Type": "application/json"
+    };
+    const data = {
+        "content": text.substring(0, 900) // API has a limit of 900 characters
+    };
+    console.log(data);
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        return result.document;
+    } catch (error) {
+        console.error('Error during sentiment analysis:', error);
+        return 'Analysis failed';
+    }
+}
 
 // 일기 작성
 app.post('/create-diary', upload.single('image'), (req, res) => {
