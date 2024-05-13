@@ -14,12 +14,17 @@ const DiaryForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!file) return;
 
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
-    formData.append('image', file);
+    if (!file) {
+        const blankImage = new File([new Blob()], 'blank.jpg', { type: 'image/jpeg' });
+        formData.append('image', blankImage);
+    }
+    else {
+        formData.append('image', file);
+    }
 
     try {
       const response = await createDiary(formData);
@@ -31,13 +36,15 @@ const DiaryForm: React.FC = () => {
 
   return (
     <div className="diary-form-container">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <label>Title:</label>
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
         <label>Content:</label>
         <textarea value={content} onChange={(e) => setContent(e.target.value)} required />
         <label>Image:</label>
-        <input type="file" onChange={handleFileChange} required />
+        <input type="file" onChange={handleFileChange} />
+        <label> Only JPG, JPEG, and PNG are supported </label>
+        <br />
         <button type="submit">Create Diary</button>
       </form>
     </div>

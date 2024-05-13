@@ -5,10 +5,11 @@ import './css/diaryList.css';
 
 interface DiaryEntry {
   id: number;
+  user_id: number;
   title: string;
   content: string;
-  image_path: string;
-  created_at: string;
+  path: string;
+  data: string;
 }
 
 const DiaryList: React.FC = () => {
@@ -32,7 +33,7 @@ const DiaryList: React.FC = () => {
         <div key={diary.id} className="diary-entry">
           <h2>{diary.title}</h2>
           <p>{diary.content}</p>
-          <img src={diary.image_path} alt="Diary" />
+          <img src={`data:image/${diary.path.split(".")[-1]};base64, ${diary.data}`} alt="diary" />
         </div>
       ))}
     </div>
