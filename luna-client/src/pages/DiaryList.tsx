@@ -30,27 +30,24 @@ const DiaryList: React.FC = () => {
   }, []);
 
   const positiveActivities = [
-    'Join a campus club or organization',
-    'Attend a college event or party',
-    'Take a nature walk around campus',
-    'Participate in a group study session',
-    'Volunteer for a campus event'
+    'SPARCS 동방에서 개발에 열중하는 것은 어떨까요?',
+    '친구들과 함께 맛있는 음식을 먹으러 가보세요!',
+    '이참에 조별과제를 혼자 끝내보는 것은 어떨까요?',
+    '학교 축제에서 이 기분을 발산해봐요!'
   ];
 
   const negativeActivities = [
-    'Talk to a campus counselor',
-    'Take a relaxing walk or meditate',
-    'Write in a personal journal',
-    'Watch a favorite movie or show',
-    'Call a friend or family member'
+    '친한 친구에게 고민을 털어놓는 것은 어떨까요?',
+    '어은동산으로 잠시 산책을 나가보시는 것은 어떨까요?',
+    '영화관에서 좋아하는 영화를 보러 가보세요.',
+    '생각나는 사람에게 전화 한 통은 어떠신가요?'
   ];
 
   const neutralActivities = [
-    'Visit the campus library',
-    'Explore a new area of the campus',
-    'Try a new hobby or activity',
-    'Attend a lecture or workshop',
-    'Plan your week or organize your notes'
+    '학교 도서관에서 평소 읽고 싶었던 책을 읽어보세요.',
+    '학교 주변에 있는 카페에서 커피 한 잔을 즐겨보세요.',
+    '새로운 취미를 찾아보세요.',
+    '시험기간의 계획을 짜 보는 것은 어떤가요?'
   ];
 
   const getRandomActivity = (sentiment: string) => {
