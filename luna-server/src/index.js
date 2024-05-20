@@ -19,20 +19,11 @@ try {
 const app = express();
 const PORT = 8000;
 
-app.set('trust proxy', 1); // trust first proxy
+app.set('trust proxy', 1);
 app.use(cors({
     origin: "https://cyber.newbie.sparcsandbox.com", // 클라이언트 주소
     credentials: true,
 }));
-
-/* 
-// 클라이언트와 서버의 포트가 다를 때 CORS 에러를 해결하기 위한 설정
-나중에 고쳐야 함
-app.use(cors({
-  origin: 'http://localhost:3000', // 클라이언트 주소
-  credentials: true // 쿠키를 함께 사용하려면 true로 설정
-})); 
-*/
 
 // 데이터베이스 설정 (본인의 데이터베이스 정보로 수정해주세요)
 const db = mysql.createConnection({
@@ -137,6 +128,28 @@ app.post('/login', (req, res) => {
     });
 });
 
+// 사용자명
+app.get('/get-username', (req, res) => {
+    console.log(req.body);
+    const user_id = req.session.userId;
+    console.log('user_id:', user_id);
+    if (!user_id) {
+        console.log('Unauthorized');
+        res.status(401).send('Unauthorized');
+        return;
+    }
+
+    db.query('SELECT username FROM users WHERE id = ?', [user_id], (err, results) => {
+        if (err) {
+          console.log(user_id);
+          res.json({ username: 'Unknown' });
+          throw err;
+        }
+        console.log(results);
+        res.json(results[0]);
+    });
+});
+
 // 로그아웃
 app.post('/logout', (req, res) => {
     console.log(req.body);
@@ -196,7 +209,7 @@ async function analyzeSentiment(text) {
         "Content-Type": "application/json"
     };
     const data = {
-        "content": text.substring(0, 900) // API has a limit of 900 characters
+        "content": text.substring(0, 900)
     };
     console.log(data);
 

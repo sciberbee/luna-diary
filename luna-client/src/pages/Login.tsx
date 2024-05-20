@@ -12,6 +12,9 @@ const Login: React.FC = () => {
     try {
       const response = await login(username, password);
       alert('Login successful!');
+      alert('Welcome, ' + username + '!');
+      // redirection to Home page
+        window.location.href = '/';
     } catch (error) {
       alert('Login failed!');
     }

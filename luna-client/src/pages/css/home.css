@@ -12,7 +12,13 @@
   
   .home-header {
     font-size: 2.5em;
-    color: #4a4a7a;
+    color: #f5ffb6;
+    margin-bottom: 20px;
+  }
+
+  .username-header {
+    font-size: 1.5em;
+    color: #ffffff;
     margin-bottom: 20px;
   }
   

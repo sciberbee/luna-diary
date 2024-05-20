@@ -12,9 +12,20 @@ const Register: React.FC = () => {
     try {
       const response = await register(username, password);
       alert('Registration successful!');
-    } catch (error) {
-      alert('Registration failed!');
+      // redirection to Login page
+      alert("You have been registered successfully! Please log in.");
+      window.location.href = '/login';
+    } catch (error: unknown) {
+      if (isAxiosError(error) && error.response?.status === 409) {
+        alert('Your username was already taken!');
+      } else {
+        alert('Registration failed!');
+      }
     }
+  };
+
+  const isAxiosError = (error: any): error is { response: { status: number } } => {
+    return error?.response?.status !== undefined;
   };
 
   return (
