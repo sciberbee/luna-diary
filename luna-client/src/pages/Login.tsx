@@ -22,6 +22,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-container">
+      <h1 className="login-header">Login to Luna</h1>
       <form onSubmit={handleLogin}>
         <label>Username:</label>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />

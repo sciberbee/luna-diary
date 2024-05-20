@@ -158,7 +158,7 @@ app.post('/logout', (req, res) => {
 });
 
 // 일기 목록 조회
-app.get('/diaries', async (req, res) => {
+app.get('/diaries', isAuthenticated, async (req, res) => {
     console.log(req.body);
     const user_id = req.session.userId;
     console.log('user_id:', user_id);
@@ -228,32 +228,36 @@ async function analyzeSentiment(text) {
 }
 
 // 일기 작성
-app.post('/create-diary', upload.single('image'), (req, res) => {
-    console.log(req.file);
-    const { title, content } = req.body;
-    
-    const path = req.file.path;
-    const user_id = req.session.userId;
+function isAuthenticated(req, res, next) {
+  const user_id = req.session.userId;
+  console.log('user_id:', user_id);
+  if (!user_id) {
+      console.log('Unauthorized');
+      return res.status(401).send('Unauthorized');
+  }
+  next();
+}
 
-    console.log('user_id:', user_id);
+// 일기 작성
+app.post('/create-diary', isAuthenticated, upload.single('image'), (req, res) => {
+  console.log(req.file);
+  const { title, content } = req.body;
+  const path = req.file.path;
+  const user_id = req.session.userId;
 
-    if (user_id) {
-        console.log('user_id:', user_id);
-        console.log('title:', title);
-        console.log('content:', content);
-        console.log('path:', path);
-        db.query('INSERT INTO diaries (user_id, title, content, path) VALUES (?, ?, ?, ?)', 
-            [user_id, title, content, path], (err, results) => {
-            if (err) {
-                console.log(err);
-                throw err;
-            }
-            res.send('Diary added successfully!');
-        });
-    } else {
-        console.log('Unauthorized');
-        res.status(401).send('Unauthorized');
-    }
+  console.log('user_id:', user_id);
+  console.log('title:', title);
+  console.log('content:', content);
+  console.log('path:', path);
+
+  db.query('INSERT INTO diaries (user_id, title, content, path) VALUES (?, ?, ?, ?)', 
+      [user_id, title, content, path], (err, results) => {
+      if (err) {
+          console.log(err);
+          throw err;
+      }
+      res.send('Diary added successfully!');
+  });
 });
 
 app.listen(PORT, () => {

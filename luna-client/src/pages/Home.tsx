@@ -37,7 +37,7 @@ const HomePage: React.FC = () => {
         Welcome to Luna diary!
       </header>
       <header className="username-header">
-        {username ? <p>You are logged in as {username}</p> : <p>You are not logged in...</p>}
+        {username ? <p>You are logged in as <b>{username}</b></p> : <p>You are not logged in...</p>}
       </header>
       <div className="button-container">
         {!username ? (

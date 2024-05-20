@@ -19,8 +19,8 @@ const DiaryForm: React.FC = () => {
     formData.append('title', title);
     formData.append('content', content);
     if (!file) {
-        const blankImage = new File([new Blob()], 'blank.jpg', { type: 'image/jpeg' });
-        formData.append('image', blankImage);
+        const defaultImage = new File([new Blob()], 'blank.jpg', { type: 'image/jpeg' });
+        formData.append('image', defaultImage);
     }
     else {
         formData.append('image', file);
@@ -29,6 +29,7 @@ const DiaryForm: React.FC = () => {
     try {
       const response = await createDiary(formData);
       alert('Diary created successfully!');
+      window.location.href = '/';
     } catch (error) {
       alert('Failed to create diary!');
     }

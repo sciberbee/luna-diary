@@ -71,7 +71,7 @@ const DiaryList: React.FC = () => {
       {diaries.map((diary) => (
         <div key={diary.id} className="diary-entry">
           <h2>{diary.title}</h2>
-          <img src={`data:image/${diary.path.split(".").pop()};base64, ${diary.data}`} alt="diary" />
+          {diary.data ? <img src={`data:image/${diary.path.split(".").pop()};base64, ${diary.data}`} alt="diary" /> : null}
           <p>{diary.content}</p>
           <h3>Sentiment: {diary.sentiment || 'Analyzing...'}</h3>
           <h4>Confidence: 
@@ -84,7 +84,7 @@ const DiaryList: React.FC = () => {
             (diary.sentiment === 'negative') ? '😢' :
             '😐'}
           </h4>
-          <h4>Recommended Activity: {getRandomActivity(diary.sentiment)}</h4>
+          <h4>Recommended Activity: <hr /> {getRandomActivity(diary.sentiment)}</h4>
         </div>
       ))}
     </div>

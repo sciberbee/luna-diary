@@ -30,6 +30,7 @@ const Register: React.FC = () => {
 
   return (
     <div className="register-container">
+      <h1 className="login-header">Register to Luna</h1>
       <form onSubmit={handleRegister}>
         <label>Username:</label>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
