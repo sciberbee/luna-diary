@@ -72,9 +72,6 @@ app.use(session({
     }
 }));
 
-// 라우트 설정
-// 회원가입, 로그인, 로그아웃, 일기 작성, 일기 목록 조회 등의 라우트를 구현합니다.
-
 // 회원가입
 app.post('/register', (req, res) => {
     console.log(req.body);
