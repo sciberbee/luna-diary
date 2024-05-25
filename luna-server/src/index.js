@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
@@ -6,15 +7,14 @@ const path = require('path');
 const cors = require('cors');
 const fs = require('fs');
 const fetch = require('node-fetch');
-
 const multer = require('multer');
 
 try {
     fs.readdirSync('uploads');
-  } catch (error) {
+} catch (error) {
     console.error('mkdir uploads');
     fs.mkdirSync('uploads');
-  }
+}
 
 const app = express();
 const PORT = 8000;
@@ -25,12 +25,12 @@ app.use(cors({
     credentials: true,
 }));
 
-// 데이터베이스 설정 (본인의 데이터베이스 정보로 수정해주세요)
+// 데이터베이스 설정
 const db = mysql.createConnection({
-    host: 'db',
-    user: 'root',
-    password: 'tnfqkrtm',
-    database: 'luna_diary'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 // 파일 저장을 위한 multer 설정
@@ -60,7 +60,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'your_secret_key',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     proxy: true,
@@ -73,7 +73,7 @@ app.use(session({
 }));
 
 // 라우트 설정
-// 회원가입, 로그인, 로그아웃, 일기 작성, 일기 목록 조회 등의 라우트를 구현합니다.
+// 회원가입, 로그인, 로그아웃, 일기 작성, 일기 목록 조회, 사용자명 조회
 
 // 회원가입
 app.post('/register', (req, res) => {
@@ -89,8 +89,7 @@ app.post('/register', (req, res) => {
             console.log('Username already taken');
             res.status(409).send('Username already taken');
             return;
-        }
-        else {
+        } else {
             db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], (err, results) => {
                 if (err) {
                     // log error on the terminal
@@ -101,7 +100,6 @@ app.post('/register', (req, res) => {
             });
         }
     });
-
 });
 
 // 로그인
@@ -200,8 +198,8 @@ app.get('/diaries', isAuthenticated, async (req, res) => {
 });
 
 async function analyzeSentiment(text) {
-    const client_id = "po27e2eh8m";  // Replace with your actual client id
-    const client_secret = "YnECVYs35gEi66OWNKaEbnwhLYnoClamgtzQoe8j";  // Replace with your actual client secret
+    const client_id = process.env.CLIENT_ID; 
+    const client_secret = process.env.CLIENT_SECRET; 
     const url = "https://naveropenapi.apigw.ntruss.com/sentiment-analysis/v1/analyze";
     const headers = {
         "X-NCP-APIGW-API-KEY-ID": client_id,
