@@ -15,7 +15,6 @@ const App: React.FC = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/diaries" element={<DiaryList />} />
         <Route path="/create-diary" element={<DiaryForm />} />
-        <Route path="/" element={<DiaryList />} />
       </Routes>
     </Router>
   );
